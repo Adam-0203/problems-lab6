@@ -17,8 +17,8 @@ public class ListPerformanceComparison {
 
         System.out.println("---- Populate both lists ----");
         for (int i = 0; i < SIZE; i++) {
-            //code here
-            //code here
+            arrayList.add(i);
+            linkedList.add(i);
         }
 
         // 2️⃣ Random insertions and deletions
@@ -40,7 +40,14 @@ public class ListPerformanceComparison {
         Random random = new Random();
         long start = System.nanoTime();
 
-        // insert your code here
+        for (int iter=0 ; iter<OPERATIONS; iter++){
+            list.add(random.nextInt(list.size()+1),random.nextInt());
+        }
+
+        for (int iter=0 ; iter<OPERATIONS; iter++){
+            list.remove(random.nextInt(list.size()+1));
+        }
+        
 
         long end = System.nanoTime();
         System.out.printf("%s - Random insert/delete: %.3f ms%n",
@@ -51,14 +58,37 @@ public class ListPerformanceComparison {
 
     private static void testSequentialInsertDelete(List<Integer> list, String name) {
         long start = System.nanoTime();
+        Random random = new Random();
+       
+        if (list instanceof ArrayList){
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+                list.add(0,random.nextInt());
+            }
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+                list.add(random.nextInt());
+            }
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+                list.remove(0);
+            }
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+               list.remove(list.size()-1);
+            }
+        }
+        else{
 
-        // Insertions at beginning and end
-
-        // add your code here
-
-        // Deletions at beginning and end
-
-        // add your code here
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+                list.addFirst(random.nextInt());
+            }
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+                list.addLast(random.nextInt());
+            }
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+               list.removeFirst();
+            }
+            for (int iter=0 ; iter<OPERATIONS; iter++){
+               list.removeLast();
+            }
+        }
 
         long end = System.nanoTime();
         System.out.printf("%s - Sequential insert/delete (start/end): %.3f ms%n",
@@ -68,12 +98,12 @@ public class ListPerformanceComparison {
     // ------------------------------------------------------------
 
     private static void testRandomAccess(List<Integer> list, String name) {
-        Random random = new Random();
         long start = System.nanoTime();
 
         long sum = 0;
-        // sum of the all elements in the list
-       // insert your code here
+        for (int i=0; i<list.size(); i++){
+            sum += list.get(i);
+        }
 
         long end = System.nanoTime();
         System.out.printf("%s - Random access (get): %.3f ms%n",
